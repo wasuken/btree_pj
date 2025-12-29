@@ -4,3 +4,17 @@ class BTreeNode:
         self.children = children  # BTreeNodeのリスト
         self.is_leaf = is_leaf
         self.max_keys = max_keys
+
+    def only_data_copy(self, node):
+        self.keys = node.keys
+        self.children = node.children
+        self.is_leaf = node.is_leaf
+        self.max_keys = node.max_keys
+
+    def dprint(self, depth=1):
+        if self.is_leaf:
+            print("#" * depth, self.keys)
+        else:
+            print("#" * depth, self.keys)
+            for n in self.children:
+                n.dprint(depth + 1)
