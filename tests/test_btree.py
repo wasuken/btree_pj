@@ -1,3 +1,4 @@
+import random
 import unittest
 from btree import BTree
 
@@ -31,6 +32,12 @@ class TestBTree(unittest.TestCase):
         btree.insert(11)
         self.assertEqual(btree.search(11), 11)
         self.assertEqual(btree.search(2), 2)
+
+    def test_insert_many(self):
+        test_data = random.sample(range(1, 100001), 10000)
+        btree = BTree(self.max_keys, test_data)
+        # btree.dprint()
+        # self.assertEqual(1, 2)
 
     def test_delete_value(self):
         btree = BTree(self.max_keys, [1, 3, 5, 7, 9])

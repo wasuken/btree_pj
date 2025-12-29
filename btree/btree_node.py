@@ -13,7 +13,7 @@ class BTreeNode:
 
     def dprint(self, depth=1):
         if self.is_leaf:
-            print("#" * depth, self.keys)
+            print("#" * depth, self.keys, "Leaf")
         else:
             print("#" * depth, self.keys)
             for n in self.children:

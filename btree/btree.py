@@ -103,35 +103,28 @@ class BTree:
                         break
         return None
 
-    # def delete(self, value) -> int|None:
-    #     if self.root is None:
-    #         # 空ツリーの場合、無視
-    #         return None
-    #     # 削除処理
-    #     node = self.root
-    #     while node:
-    #         n = len(node.keys)
-    #         for i in range(n):
-    #             key = node.keys[i]
-    #             if key == value:
-    #                 node.keys.remove(value)
-    #                 # 見つかった。
-    #                 return value
-    #             elif key > value:
-    #                 # left,rightしかないが、将来的に>3になったときにも対応可能
-    #                 if node.is_leaf:
-    #                     return None
-    #                 else:
-    #                     node = node.children[i]
-    #                     break
-    #             elif i == n - 1:
-    #                 # 一番大きい範囲
-    #                 if node.is_leaf:
-    #                     return None
-    #                 else:
-    #                     node = node.children[n]
-    #                     break
-    #     return None
+    def range_search(self, min_val, max_val):
+        result = []
+        self._range_search_recursive(self.root, min_val, max_val, result)
+        return result
+
+    def _range_search_recursive(self, node, min_val, max_val, result):
+        if node is None:
+            return
+
+        for i, key in enumerate(node.keys):
+            if not node.is_leaf and key > min_val:
+                self._range_search_recursive(node.children[i], min_val, max_val, result)
+
+            if min_val <= key <= max_val:
+                result.append(key)
+
+            if key > max_val:
+                return
+
+            if not node.is_leaf:
+                self._range_search_recursive(node.children[-1], min_val, max_val, result)
+
     def _collect_all_keys(self, node):
         keys = node.keys
         if not node.is_leaf:
